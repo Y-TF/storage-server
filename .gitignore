@@ -43,3 +43,6 @@ application-prod.yml
 
 ### IMAGES ###
 src/main/resources/static/images/**
+
+### LOGS ###
+/logs/**
