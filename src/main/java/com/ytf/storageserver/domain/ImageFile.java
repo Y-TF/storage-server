@@ -7,6 +7,8 @@ import java.util.regex.Pattern;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ytf.storageserver.exception.BusinessException;
+
 public class ImageFile {
 	private static final Pattern VALIDATE_EXTENSION = Pattern.compile("^(png|jpg|jpeg)$");
 
@@ -20,7 +22,7 @@ public class ImageFile {
 		this.imageBytes = imageBytes;
 	}
 
-	public static ImageFile from(MultipartFile multipartFile) {
+	public static ImageFile from(final MultipartFile multipartFile) {
 		validateMultipartFile(multipartFile);
 
 		try {
@@ -33,35 +35,35 @@ public class ImageFile {
 		}
 	}
 
-	private static void validateMultipartFile(MultipartFile multipartFile) {
+	private static void validateMultipartFile(final MultipartFile multipartFile) {
 		validateFileIsNull(multipartFile);
 		validateFileIsEmpty(multipartFile);
 		validateFilenameIsEmpty(multipartFile);
 		validateFileExtension(multipartFile);
 	}
 
-	private static void validateFileIsNull(MultipartFile multipartFile) {
+	private static void validateFileIsNull(final MultipartFile multipartFile) {
 		if (Objects.isNull(multipartFile)) {
-			throw new IllegalArgumentException("이미지 파일은 null 값이 들어올 수 없습니다.");
+			throw new BusinessException("이미지 파일은 null 값이 들어올 수 없습니다.");
 		}
 	}
 
-	private static void validateFileIsEmpty(MultipartFile multipartFile) {
+	private static void validateFileIsEmpty(final MultipartFile multipartFile) {
 		if (multipartFile.isEmpty()) {
-			throw new IllegalArgumentException("빈 이미지 파일은 들어올 수 없습니다.");
+			throw new BusinessException("빈 이미지 파일은 들어올 수 없습니다.");
 		}
 	}
 
-	private static void validateFilenameIsEmpty(MultipartFile multipartFile) {
+	private static void validateFilenameIsEmpty(final MultipartFile multipartFile) {
 		if (multipartFile.getOriginalFilename().isEmpty()) {
-			throw new IllegalArgumentException("이미지 파일 이름은 빈 문자열이 들어올 수 없습니다.");
+			throw new BusinessException("이미지 파일 이름은 빈 문자열이 들어올 수 없습니다.");
 		}
 	}
 
-	private static void validateFileExtension(MultipartFile multipartFile) {
+	private static void validateFileExtension(final MultipartFile multipartFile) {
 		String extension = StringUtils.getFilenameExtension(multipartFile.getOriginalFilename());
 		if (!VALIDATE_EXTENSION.matcher(extension).matches()) {
-			throw new IllegalArgumentException("이미지 파일의 확장자는 png, jpg, jpeg만 가능합니다.");
+			throw new BusinessException("이미지 파일의 확장자는 png, jpg, jpeg만 가능합니다.");
 		}
 	}
 }
