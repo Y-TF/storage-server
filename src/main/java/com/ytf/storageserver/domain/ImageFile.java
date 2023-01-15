@@ -1,7 +1,10 @@
 package com.ytf.storageserver.domain;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import org.springframework.util.StringUtils;
@@ -65,5 +68,18 @@ public class ImageFile {
 		if (!VALIDATE_EXTENSION.matcher(extension).matches()) {
 			throw new BusinessException("이미지 파일의 확장자는 png, jpg, jpeg만 가능합니다.");
 		}
+	}
+
+	public String getRandomName() {
+		StringBuilder randomName = new StringBuilder();
+		randomName.append(UUID.randomUUID())
+			.append(".")
+			.append(StringUtils.getFilenameExtension(originalFilename));
+
+		return randomName.toString();
+	}
+
+	public InputStream getImageFileInputStream() {
+		return new ByteArrayInputStream(imageBytes);
 	}
 }
