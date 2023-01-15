@@ -1,0 +1,3 @@
+file:
+  upload-dir: src/test/resources/static/images/
+  server-prefix: http://localhost/images/
