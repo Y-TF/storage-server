@@ -46,10 +46,11 @@ public class ImageService {
 	}
 
 	public byte[] downloadImage(final String imageUrl) {
-		try {
-			Path imageStoredPath = storagePath.resolve(imageUrl);
-			File imageFile = imageStoredPath.toFile();
-			return StreamUtils.copyToByteArray(new FileInputStream(imageFile));
+		Path imageStoredPath = storagePath.resolve(imageUrl);
+		File imageFile = imageStoredPath.toFile();
+
+		try (FileInputStream fis = new FileInputStream(imageFile)) {
+			return StreamUtils.copyToByteArray(fis);
 		} catch (FileNotFoundException e) {
 			throw new ImageFileNotFoundException("해당 파일이 경로에 존재하지 않습니다.");
 		} catch (IOException e) {
