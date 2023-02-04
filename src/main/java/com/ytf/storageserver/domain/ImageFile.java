@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ytf.storageserver.exception.BusinessException;
 
 public class ImageFile {
-	private static final Pattern VALIDATE_EXTENSION = Pattern.compile("^(png|jpg|jpeg)$");
+	private static final Pattern VALIDATE_EXTENSION = Pattern.compile("^(png|jpg|jpeg|gif)$");
 
 	private final String originalFilename;
 	private final String contentType;
